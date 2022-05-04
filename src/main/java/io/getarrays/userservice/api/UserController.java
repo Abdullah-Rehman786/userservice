@@ -1,6 +1,6 @@
 package io.getarrays.userservice.api;
 
-import io.getarrays.userservice.models.AppUser;
+import io.getarrays.userservice.models.User;
 import io.getarrays.userservice.models.Role;
 import io.getarrays.userservice.services.UserService;
 import lombok.Data;
@@ -18,14 +18,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<AppUser>> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<AppUser> saveUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
         URI uri  = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(appUser));
+        return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
     @PostMapping("/role/save")
@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping("/role/addtouser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        userService.addRoleToAppUser(form.getUsername(), form.getRoleName());
+        userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
 

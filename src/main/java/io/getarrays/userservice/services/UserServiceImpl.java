@@ -1,6 +1,6 @@
 package io.getarrays.userservice.services;
 
-import io.getarrays.userservice.models.AppUser;
+import io.getarrays.userservice.models.User;
 import io.getarrays.userservice.models.Role;
 import io.getarrays.userservice.repos.RoleRepo;
 import io.getarrays.userservice.repos.UserRepo;
@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService{
     private final RoleRepo roleRepo;
 
     @Override
-    public AppUser saveUser(AppUser appUser) {
-        log.info("Saving new user {} to db", appUser.getUsername());
-        return userRepo.save(appUser);
+    public User saveUser(User user) {
+        log.info("Saving new user {} to db", user.getUsername());
+        return userRepo.save(user);
     }
 
     @Override
@@ -35,22 +35,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void addRoleToAppUser(String username, String roleName) {
+    public void addRoleToUser(String username, String roleName) {
         log.info("Adding role {} to user {}", roleName, username);
-        AppUser appUser = userRepo.findByUsername(username);
+        User user = userRepo.findByUsername(username);
         Role role = roleRepo.findByName(roleName);
 
-        appUser.getRoles().add(role);
+        user.getRoles().add(role);
     }
 
     @Override
-    public AppUser getUser(String username) {
+    public User getUser(String username) {
         log.info("Fetching user {}", username);
         return userRepo.findByUsername(username);
     }
 
     @Override
-    public List<AppUser> getUsers() {
+    public List<User> getUsers() {
         log.info("Fetching all users");
         return userRepo.findAll();
     }
